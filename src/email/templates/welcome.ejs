@@ -1,0 +1,18 @@
+<p>Hello <%= name %>,</p>
+<p>
+  Thank you for creating an account at GuardLink. To finish your registration, please confirm your email by clicking on the link below:
+</p>
+
+<a href="<%= confirmation_url %>" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: #ffffff; text-decoration: none; border-radius: 4px;">CLICK HERE TO VERIFY</a>
+
+<p>If you didn't request this email, it's safe to ignore it.</p>
+
+<p>
+  If you're having trouble with the link above, copy and paste the URL below into your web browser:
+</p>
+
+<p>
+  Activation Link:
+</p>
+
+<a href="<%= confirmation_url %>" style="text-decoration: none; color: #007BFF;"><%= confirmation_url %></a>
