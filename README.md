@@ -38,6 +38,4 @@ pnpm run dev
 
 # Contributing
 
-Suhaib Ahmed - https://github.com/makkahwi
-
 Hussain Ghazali - https://github.com/hussainghazali
