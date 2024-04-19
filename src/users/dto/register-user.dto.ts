@@ -26,23 +26,12 @@ export class RegisterUserDto {
   @IsString()
   @Length(1, 255)
   @ApiProperty({
-    description: 'new user firstname',
+    description: 'new user name',
     minLength: 1,
     maxLength: 255,
     example: 'Saud',
   })
-  firstName: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 255)
-  @ApiProperty({
-    description: 'new user lastname',
-    minLength: 1,
-    maxLength: 255,
-    example: 'Ali',
-  })
-  lastName: string;
+  name: string;
 
   @IsNotEmpty()
   @IsString()
@@ -54,15 +43,6 @@ export class RegisterUserDto {
     example: 'password',
   })
   password: string;
-
-  @IsEnum(UserType)
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'new user type',
-    enum: UserType,
-    example: UserType.CUSTOMER,
-  })
-  type: UserType;
 
   @IsNotEmpty()
   @IsNumberString()

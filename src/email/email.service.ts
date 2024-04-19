@@ -15,7 +15,7 @@ export class EmailService {
       subject: 'Welcome to GuardLink App! Confirm your Email',
       template: 'welcome', // `.ejs` extension is appended automatically
       context: { // filling <%= %> brackets with content
-        name: user.firstName,
+        name: user.name,
         confirmation_url,
       },
     });

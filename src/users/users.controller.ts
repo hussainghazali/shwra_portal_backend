@@ -5,19 +5,13 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { RegisterUserDto } from './dto/register-user.dto';
 import { Public } from 'src/auth/auth.guard';
 import { JwtPayload } from 'src/auth/auth.service';
-import { RequestOtpDto } from './dto/request-otp.dto';
-import { LoginWithOtpDto } from './dto/login-with-otp.dto';
-import { RegisterWithOtpDto } from './dto/register-with-otp.dto';
 import * as jwt from 'jsonwebtoken';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { RegisterAdminDto } from './dto/register-admin.dto';
 import { ForgetPasswordDto } from './dto/forget-password.dto';
 import { UpdatePasswordDto } from './dto/reset-password.dto';
 import { PasswordConfirmationPipe } from 'src/middleware/password-confirmation.pipe';
-import { UpdateUserLocationDto } from './dto/update-user-location.dto';
 import { LoggerService } from 'src/logger/logger.service';
-import { AddUserRating } from './dto/add-rating.dto';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -42,23 +36,6 @@ export class UsersController {
     } catch (error) {
       this.logger.error('Failed to create user', error.stack, 'UsersController');
       throw { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Failed to create user' };
-    }
-  }
-
-  @Public()
-  @Post('register/admin')
-  @UseInterceptors(FileInterceptor('file'))
-  async registerAdmin(
-    @Body() registerAdminDto: RegisterAdminDto,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    try {
-      const admin = await this.usersService.registerAdmin(registerAdminDto, file);
-      this.logger.log('Admin Created', 'UsersController');
-      return { message: 'Admin created successfully', admin, statusCode: HttpStatus.CREATED };
-    } catch (error) {
-      this.logger.error('Failed to create admin', error.stack, 'UsersController');
-      throw { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Failed to create admin' };
     }
   }
 
@@ -111,45 +88,6 @@ export class UsersController {
     }
   }
 
-  @Public()
-  @Post('requestOtp')
-  async requestOtp(@Body() requestOtpDto: RequestOtpDto) {
-    try {
-      this.logger.log('User OTP Requested', 'UsersController');
-      const result = await this.usersService.requestOtp(requestOtpDto);
-      return { message: 'OTP requested successfully', result, statusCode: HttpStatus.OK };
-    } catch (error) {
-      this.logger.error('Failed to request OTP', error.stack, 'UsersController');
-      throw { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Failed to request OTP' };
-    }
-  }
-
-  @Public()
-  @Post('loginWithOtp')
-  async loginWithOtp(@Body() loginWithOtpDto: LoginWithOtpDto) {
-    try {
-      this.logger.log('User Logged In with OTP', 'UsersController');
-      const result = await this.usersService.loginWithOtp(loginWithOtpDto);
-      return { message: 'User logged in with OTP successfully', result, statusCode: HttpStatus.OK };
-    } catch (error) {
-      this.logger.error('Failed to log in with OTP', error.stack, 'UsersController');
-      throw { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Failed to log in with OTP' };
-    }
-  }
-
-  @Public()
-  @Post('registerWithOtp')
-  async registerWithOtp(@Body() registerWithOtpDto: RegisterWithOtpDto) {
-    try {
-      this.logger.log('User Registered with OTP', 'UsersController');
-      const result = await this.usersService.registerWithOtp(registerWithOtpDto);
-      return { message: 'User registered with OTP successfully', result, statusCode: HttpStatus.CREATED };
-    } catch (error) {
-      this.logger.error('Failed to register with OTP', error.stack, 'UsersController');
-      throw { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Failed to register with OTP' };
-    }
-  }
-
   private tokenBlacklist: Set<string> = new Set(); // In-memory token blacklist
 
   @Post('logout')
@@ -195,82 +133,6 @@ export class UsersController {
     } catch (error) {
       this.logger.error('Failed to fetch users', error.stack, 'UsersController');
       throw { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Failed to fetch users' };
-    }
-  }
-
-  @Get('customers')
-  async getAllCustomers() {
-    try {
-      const allCustomers = await this.usersService.getAllCustomers();
-      if (!allCustomers) {
-        return { message: "No customers found", statusCode: HttpStatus.NOT_FOUND };
-      }
-      this.logger.log('Customers Fetched', 'UsersController');
-      return { ...allCustomers, statusCode: HttpStatus.OK };
-    } catch (error) {
-      this.logger.error('Failed to fetch customers', error.stack, 'UsersController');
-      throw { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Failed to fetch customers' };
-    }
-  }
-
-  @Get('providers')
-  async getAllProviders() {
-    try {
-      const allProviders = await this.usersService.getAllProviders();
-      if (!allProviders) {
-        return { message: "No providers found", statusCode: HttpStatus.NOT_FOUND };
-      }
-      this.logger.log('Providers Fetched', 'UsersController');
-      return { ...allProviders, statusCode: HttpStatus.OK };
-    } catch (error) {
-      this.logger.error('Failed to fetch providers', error.stack, 'UsersController');
-      throw { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Failed to fetch providers' };
-    }
-  }
-
-  @Put(":userId/location")
-  @ApiOperation({ summary: "Update Location By User ID" })
-  @ApiResponse({ status: 200, description: "Location UPDATED" })
-  @ApiResponse({
-    status: 400,
-    description: "BAD REQUEST",
-  })
-  async updateLocation(
-    @Param('userId') userId: string,
-    @Body() updateUserLocationDto: UpdateUserLocationDto,
-  ) {
-    try {
-      const result = await this.usersService.updateLocation(userId, updateUserLocationDto);
-      this.logger.log('User Fetched', 'UsersController');
-      return { success: true, data: result, statusCode: HttpStatus.OK };
-    } catch (error) {
-      throw new BadRequestException({
-        statusCode: HttpStatus.BAD_REQUEST,
-        message: 'An error occurred while processing your request',
-      });
-    }
-  }
-
-  @Put(":userId/rating")
-  @ApiOperation({ summary: "Update Rating By User ID" })
-  @ApiResponse({ status: 200, description: "Rating UPDATED" })
-  @ApiResponse({
-    status: 400,
-    description: "BAD REQUEST",
-  })
-  async postRating(
-    @Param('userId') userId: string,
-    @Body() addUserRating: AddUserRating,
-  ) {
-    try {
-      const result = await this.usersService.updateRating(userId, addUserRating);
-      this.logger.log('User Rating Added', 'UsersController');
-      return { success: true, data: result, statusCode: HttpStatus.OK };
-    } catch (error) {
-      throw new BadRequestException({
-        statusCode: HttpStatus.BAD_REQUEST,
-        message: 'An error occurred while processing your request',
-      });
     }
   }
 
