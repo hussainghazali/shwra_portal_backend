@@ -2,20 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { File } from 'src/files/entites/file.entity';
 import { Notification } from 'src/notifications/entites/notification.entity';
 
-export enum UserType {
-  ADMIN = 'ADMIN',
-  CUSTOMER = 'CUSTOMER',
-  PROVIDER = 'PROVIDER',
-}
-@Entity('users')
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -23,33 +16,17 @@ export class User {
   @Column()
   name: string;
 
-  @Column({ unique: true, nullable: true })
+  @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   password: string;
 
-  @Column({ unique: true, nullable: true })
+  @Column({ unique: true, nullable: false })
   phoneNumber: string;
 
   @Column({ nullable: true })
   companyName: string;
-
-  @JoinColumn({ name: 'fileId' })
-  @OneToOne(() => File, {
-    nullable: true,
-  })
-  file?: File;
-  @Column({ nullable: true })
-  fileId?: string;
-
-  @JoinColumn({ name: 'notificationId' })
-  @OneToOne(() => Notification, {
-    nullable: true,
-  })
-  notification?: Notification;
-  @Column({ nullable: true })
-  notificationId?: string;
 
   @CreateDateColumn()
   createdAt: Date;

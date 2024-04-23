@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { SignOptions } from 'jsonwebtoken';
-import { User, UserType } from 'src/users/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from 'src/users/dto/register-user.dto';
 import { Otp } from './entities/otp.entity';
@@ -30,14 +30,23 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   
-  async register(registerUserDto: RegisterUserDto, file: any) {
-    const { email, password, name, phoneNumber } = registerUserDto;
+  async register(registerUserDto: RegisterUserDto) {
+    const { email, password, name, industryType,
+      legalIssue,
+      meetingType,
+      meetingDate,
+      meetingTime,
+      phoneNumber } = registerUserDto;
     const user = await this.userRepository.save({
       email,
       name,
       phoneNumber,
+      industryType,
+      legalIssue,
+      meetingType,
+      meetingDate,
+      meetingTime,
       password: await bcrypt.hash(password, 10),
-      fileId: file ?? null,
     });
 
     const payload: JwtPayload = {

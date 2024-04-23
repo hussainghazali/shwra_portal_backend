@@ -24,13 +24,11 @@ export class UsersController {
 
   @Public()
   @Post('register')
-  @UseInterceptors(FileInterceptor('file'))
   async register(
     @Body() registerUserDto: RegisterUserDto,
-    @UploadedFile() file: Express.Multer.File,
   ) {
     try {
-      const user = await this.usersService.register(registerUserDto, file);
+      const user = await this.usersService.register(registerUserDto);
       this.logger.log('User Created', 'UsersController');
       return { message: 'User created successfully', user, statusCode: HttpStatus.CREATED };
     } catch (error) {

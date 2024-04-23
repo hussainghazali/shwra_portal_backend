@@ -14,6 +14,7 @@ import { CreatedInterceptor } from './logger/error/201';
 import { ServerErrorFilter } from './logger/error/500';
 import { SuccessFilter } from './logger/error/200';
 import { FilesModule } from './files/files.module';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { FilesModule } from './files/files.module';
     AuthModule,
     NotificationsModule,
     LoggerModule,
-    FilesModule
+    FilesModule,
+    AppointmentModule
   ],
   controllers: [AppController],
   providers: [
