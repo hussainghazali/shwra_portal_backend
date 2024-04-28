@@ -31,21 +31,12 @@ export class AuthService {
   ) {}
   
   async register(registerUserDto: RegisterUserDto) {
-    const { email, password, name, industryType,
-      legalIssue,
-      meetingType,
-      meetingDate,
-      meetingTime,
-      phoneNumber } = registerUserDto;
+    const { email, password, name, phoneNumber, companyName } = registerUserDto;
     const user = await this.userRepository.save({
       email,
       name,
       phoneNumber,
-      industryType,
-      legalIssue,
-      meetingType,
-      meetingDate,
-      meetingTime,
+      companyName,
       password: await bcrypt.hash(password, 10),
     });
 

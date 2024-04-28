@@ -1,9 +1,7 @@
 import {
   IsNotEmpty,
   IsString,
-  IsEmail,
   Length,
-  IsEnum,
   IsNumberString,
   Matches,
 } from 'class-validator';
@@ -70,59 +68,4 @@ export class RegisterUserDto {
     example: '9665xxxxxxxx',
   })
   phoneNumber: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 255)
-  @ApiProperty({
-    description: 'new user name',
-    minLength: 1,
-    maxLength: 255,
-    example: 'Saud',
-  })
-  industryType: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 255)
-  @ApiProperty({
-    description: 'new user name',
-    minLength: 1,
-    maxLength: 255,
-    example: 'Saud',
-  })
-  legalIssue: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 255)
-  @ApiProperty({
-    description: 'new user name',
-    minLength: 1,
-    maxLength: 255,
-    example: 'Saud',
-  })
-  meetingType: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 255)
-  @ApiProperty({
-    description: 'new user name',
-    minLength: 1,
-    maxLength: 255,
-    example: 'Saud',
-  })
-  meetingDate: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 255)
-  @ApiProperty({
-    description: 'new user name',
-    minLength: 1,
-    maxLength: 255,
-    example: 'Saud',
-  })
-  meetingTime: string;
 }
