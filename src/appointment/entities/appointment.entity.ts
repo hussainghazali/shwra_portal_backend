@@ -3,9 +3,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToMany,
   JoinColumn,
   ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({name: 'appointment' })
@@ -16,26 +17,23 @@ export class Appointment {
   @Column()
   userId: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable: true })
   industryType: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable: true  })
   legalIssue: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable: true  })
   meetingType: string;
 
-  @Column()
-  meetingDate: string;
+  @Column({ nullable: true })
+  meetingSlot: string;
 
-  @Column()
-  meetingTime: string;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @Column({ type: 'date', nullable: true })
-  createdAt?: Date;
-
-  @Column({ type: 'date', nullable: true })
-  updatedAt?: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'userId' })

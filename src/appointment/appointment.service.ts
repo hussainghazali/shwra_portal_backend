@@ -34,8 +34,7 @@ export class AppointmentService {
             industryType: appointment.industryType,
             legalIssue: appointment.legalIssue,
             meetingType: appointment.meetingType,
-            meetingTime: appointment.meetingTime,
-            meetingDate: appointment.meetingDate,
+            meetingSlot: appointment.meetingSlot,
           };
         });
     

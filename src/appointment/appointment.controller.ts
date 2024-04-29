@@ -4,6 +4,7 @@ import { Public } from 'src/auth/auth.guard';
 import { LoggerService } from 'src/logger/logger.service';
 import { RegisterAppointmentDto } from './dto/register-appointment.dto';
 import { AppointmentService } from './appointment.service';
+import { JwtPayload } from 'src/auth/auth.service';
 
 @ApiTags('appointment')
 @Controller('appointment')
@@ -16,7 +17,7 @@ export class AppointmentController {
   @Public()
   @Post('register')
   async register(
-    @Body() registerAppointmentDto: RegisterAppointmentDto
+    @Body() registerAppointmentDto: RegisterAppointmentDto,
   ) {
     try {
       const user = await this.appointmentService.register(registerAppointmentDto);

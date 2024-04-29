@@ -1,78 +1,60 @@
 import {
   IsNotEmpty,
   IsString,
-  IsEmail,
   Length,
-  IsEnum,
-  IsNumberString,
+  IsOptional,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterAppointmentDto {
-  @IsNotEmpty()
+  @IsString()
   @Length(1, 255)
   @ApiProperty({
-    description: 'user id',
+    description: 'User ID',
     minLength: 1,
     maxLength: 255,
     example: '1',
   })
-  userId: string;
+  userId?: string; // Add ? to make it optional
 
-  @IsNotEmpty()
   @IsString()
   @Length(1, 255)
   @ApiProperty({
-    description: 'new user name',
+    description: 'Industry type',
     minLength: 1,
     maxLength: 255,
     example: 'Saud',
   })
-  industryType: string;
+  industryType?: string; // Add ? to make it optional
 
-
-  @IsNotEmpty()
   @IsString()
   @Length(1, 255)
   @ApiProperty({
-    description: 'new user name',
+    description: 'Legal issue',
     minLength: 1,
     maxLength: 255,
     example: 'Saud',
   })
-  legalIssue: string;
+  legalIssue?: string; // Add ? to make it optional
 
-  @IsNotEmpty()
   @IsString()
   @Length(1, 255)
   @ApiProperty({
-    description: 'new user name',
+    description: 'Meeting type',
     minLength: 1,
     maxLength: 255,
     example: 'Saud',
   })
-  meetingType: string;
+  @IsOptional() // Make it optional
+  meetingType?: string;
 
-  @IsNotEmpty()
   @IsString()
-  @Length(1, 255)
   @ApiProperty({
-    description: 'new user name',
+    description: 'Meeting date',
     minLength: 1,
     maxLength: 255,
     example: 'Saud',
   })
-  meetingDate: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @Length(1, 255)
-  @ApiProperty({
-    description: 'new user name',
-    minLength: 1,
-    maxLength: 255,
-    example: 'Saud',
-  })
-  meetingTime: string;
-
+  @IsOptional() // Make it optional
+  meetingSlot?: string;
 }
