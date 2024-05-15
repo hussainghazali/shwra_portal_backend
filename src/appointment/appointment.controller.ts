@@ -5,6 +5,7 @@ import { LoggerService } from 'src/logger/logger.service';
 import { RegisterAppointmentDto } from './dto/register-appointment.dto';
 import { AppointmentService } from './appointment.service';
 import { JwtPayload } from 'src/auth/auth.service';
+import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 
 @ApiTags('appointment')
 @Controller('appointment')
@@ -30,14 +31,14 @@ export class AppointmentController {
   }
 
 
-//   @Public()
-//   @Put('update')
-//   @UseInterceptors(FileInterceptor('file'))
-//   update(@Body() updateUserDto: UpdateUserDto,  @Req() req: any) {
-//     const { sub } = req.user as JwtPayload;
-//     this.logger.log('User Updated', 'UsersController');
-//     return this.usersService.update(updateUserDto, sub);
-//   }
+  @Public()
+  @Put('update')
+  // @UseInterceptors(FileInterceptor('file'))
+  update(@Body() updateAppointmentDto: UpdateAppointmentDto,   
+        @Param('id') id: string) {
+    this.logger.log('Appointment Updated', 'AppointmentController');
+    return this.appointmentService.update(updateAppointmentDto, id);
+  }
 
 
 

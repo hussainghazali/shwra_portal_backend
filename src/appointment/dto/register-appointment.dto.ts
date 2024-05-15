@@ -13,7 +13,7 @@ export class RegisterAppointmentDto {
     description: 'User ID',
     minLength: 1,
     maxLength: 255,
-    example: '1',
+    example: 'f4fa9ab4-3823-4d1d-8d1c-fb46b62a9aaf',
   })
   userId?: string; // Add ? to make it optional
 

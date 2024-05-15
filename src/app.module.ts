@@ -15,6 +15,7 @@ import { ServerErrorFilter } from './logger/error/500';
 import { SuccessFilter } from './logger/error/200';
 import { FilesModule } from './files/files.module';
 import { AppointmentModule } from './appointment/appointment.module';
+import { TimeslotModule } from './timeslots/timeslot.module';
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import { AppointmentModule } from './appointment/appointment.module';
     NotificationsModule,
     LoggerModule,
     FilesModule,
-    AppointmentModule
+    AppointmentModule,
+    TimeslotModule
   ],
   controllers: [AppController],
   providers: [
